@@ -27,6 +27,9 @@ def proof_of_work(last_proof):
     proof = 0
     #  TODO: Your code here
 
+    while valid_proof(last_proof, proof) is False:
+        proof += 1
+
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
 
@@ -40,7 +43,12 @@ def valid_proof(last_hash, proof):
     """
 
     # TODO: Your code here!
-    pass
+    
+    last_hash = str(last_hash)
+    guess = f'{last_hash}{proof}'.encode()
+    hashed_proof = hashlib.sha256(guess).hexdigest()
+
+    return last_hash[-6:] == hashed_proof[:6]
 
 
 if __name__ == '__main__':
@@ -53,7 +61,7 @@ if __name__ == '__main__':
     coins_mined = 0
 
     # Load or create ID
-    f = open("my_id.txt", "r")
+    f = open("c:/Users/Lee/Python-Lambda/Sprint-Challenge--Hash-BC/blockchain/my_id.txt", "r")
     id = f.read()
     print("ID is", id)
     f.close()
